@@ -64,7 +64,7 @@ func _ready():
 	$GUI.update_label($GUI/DebugLabel, "%s" % next_level)
 	$GUI.update_label(highscore_label, "Best distance: %s" % int(best_distance))
 	GameSounds.current_state = GameSounds.States.INGAME
-	GameSounds.switch_track(GameSounds.INGAME1)
+	
 
 func config():
 	speed = initial_speed
@@ -157,7 +157,7 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("Jump"):
 			yield(get_tree().create_timer(0.1), "timeout")
 			enter_game_state(States.PLAYING)
-			player.enter_state(player.States.RUN)	
+			player.enter_state(player.States.RUN)
 	
 	elif game_state == States.GAME_OVER or game_state == States.GAME_WON:
 		if Input.is_action_just_pressed("Jump"):
@@ -232,7 +232,7 @@ func rain():
 
 func _on_Player_died():
 	enter_game_state(States.PAUSE)
-	GameSounds.stop_music()
+	#GameSounds.stop_music()
 
 func _on_Game_Over():
 	enter_game_state(States.GAME_OVER)
@@ -240,7 +240,7 @@ func _on_Game_Over():
 
 func _on_Enemy_killed():
 	GameSounds.play_effect(GameSounds.MONSTER_DIE)
-	acc_factor -= 0.0225
+	acc_factor -= 0.0235
 
 func _on_ThemeChangeArea_entered():
 	$World/ParallaxBackground.change_theme()
@@ -272,7 +272,7 @@ func _on_Exit_reached(_body):
 	player.enter_state(player.States.CELEBRATE)
 	Globals.game_data["endless_unlock"] = true
 	Globals.game_data["reverse_unlock"] = true
-	GameSounds.stop_music()
+	#GameSounds.stop_music()
 	save_game_data()
 
 func _on_Player_exited():

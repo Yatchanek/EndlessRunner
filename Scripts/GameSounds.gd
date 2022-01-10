@@ -12,7 +12,9 @@ preload("res://Assets/Sounds/damaged3.ogg"), preload("res://Assets/Sounds/slide.
 preload("res://Assets/Sounds/swing.ogg"), preload("res://Assets/Sounds/game_over.ogg"),
 preload("res://Assets/Sounds/game_won.ogg"), preload("res://Assets/Sounds/interface1.ogg"), 
 preload("res://Assets/Sounds/coin.ogg"), preload("res://Assets/Sounds/warp.ogg")]
-var tracks = [preload("res://Assets/Sounds/Battle Theme.ogg"), preload("res://Assets/Sounds/The Battle of Atheria.ogg")]
+
+var tracks = []
+
 var next_track
 var current_track_length = 0
 var current_track = 0
@@ -55,12 +57,12 @@ enum States {
 func _ready():
 	pass # Replace with function body.
 
-func _process(delta):
-	if current_track_length > 0 and abs(current_track_length - music_manager.get_playback_position()) < 2.5:
-		match current_state:
-			States.INGAME:
-				current_track += 1
-				switch_track((INGAME1 + current_track) % 2)
+#func _process(delta):
+#	if current_track_length > 0 and abs(current_track_length - music_manager.get_playback_position()) < 2.5:
+#		match current_state:
+#			States.INGAME:
+#				current_track += 1
+#				switch_track((INGAME1 + current_track) % 2)
 	
 func change_volume(value):
 	for channel in effects_manager.get_children():

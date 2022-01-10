@@ -82,7 +82,7 @@ func spawn_platform(x, y, with_obstacle, with_roadsign, change_theme, spawn_exit
 		exit.connect("exit_visible", game_manager, "_on_Exit_visible")		
 		emit_signal("exit_spawned")
 	
-	if game_manager.distance > 2000 and randf() < 0.02:
+	if game_manager.distance > 2000 and randf() < 0.025:
 		generate_powerup()
 		
 func generate_powerup():
@@ -111,13 +111,13 @@ func generate_obstacles():
 		return
 	var obstacle_count = 0
 	var start = floor(6 * game_manager.acc_factor) + randi() % 10
-	if start > length - floor(7 * game_manager.acc_factor):
-		start = length - floor(7 * game_manager.acc_factor)
+	if start > length - 7:
+		start = length - 7
 	while randi() % 100 < obstacle_chance - 0.2 * obstacle_count:
 		add_obstacle(start)
 		obstacle_count += 1
 		start = start + MIN_OBSTACLE_GAP + randi() % 10
-		if start > length - floor(7 * game_manager.acc_factor):
+		if start > length - 7:
 			break
 
 func add_obstacle(start):
