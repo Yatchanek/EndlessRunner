@@ -1,0 +1,175 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Assets/TitleScreenTheme.tres" type="Theme" id=1]
+[ext_resource path="res://Assets/Fonts/PermanentMarker-Regular.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://Assets/Fonts/MediumLabelFOnt.tres" type="DynamicFontData" id=3]
+[ext_resource path="res://Scripts/Credits.gd" type="Script" id=4]
+
+[sub_resource type="DynamicFont" id=1]
+size = 24
+outline_size = 2
+outline_color = Color( 0.27451, 0.27451, 0.27451, 1 )
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=2]
+font_data = ExtResource( 2 )
+
+[node name="Credits" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 1 )
+script = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 0.0745098, 0.0862745, 0.0705882, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+margin_top = 360.0
+margin_right = 568.0
+margin_bottom = 710.0
+rect_min_size = Vector2( 0, 538 )
+size_flags_horizontal = 3
+custom_constants/separation = 5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Graphics" type="Label" parent="VBoxContainer"]
+margin_right = 568.0
+margin_bottom = 35.0
+custom_fonts/font = SubResource( 1 )
+text = "graphics"
+align = 1
+
+[node name="Label2" type="Label" parent="VBoxContainer"]
+margin_top = 40.0
+margin_right = 568.0
+margin_bottom = 64.0
+custom_fonts/font = SubResource( 2 )
+text = "Player character by clembod"
+align = 1
+
+[node name="Label3" type="Label" parent="VBoxContainer"]
+margin_top = 69.0
+margin_right = 568.0
+margin_bottom = 93.0
+custom_fonts/font = SubResource( 2 )
+text = "Monster graphics by LuizMelo and sanctumpixel"
+align = 1
+
+[node name="Label4" type="Label" parent="VBoxContainer"]
+margin_top = 98.0
+margin_right = 568.0
+margin_bottom = 149.0
+custom_fonts/font = SubResource( 2 )
+text = "tilesets and backgrounds by:
+Bigbuckbunny, Cainos, nortexmkd and szadiart "
+align = 1
+
+[node name="Blank" type="Label" parent="VBoxContainer"]
+margin_top = 154.0
+margin_right = 568.0
+margin_bottom = 178.0
+custom_fonts/font = SubResource( 2 )
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sounds" type="Label" parent="VBoxContainer"]
+margin_top = 183.0
+margin_right = 568.0
+margin_bottom = 218.0
+custom_fonts/font = SubResource( 1 )
+text = "Sounds"
+align = 1
+
+[node name="Label6" type="Label" parent="VBoxContainer"]
+margin_top = 223.0
+margin_right = 568.0
+margin_bottom = 274.0
+size_flags_vertical = 1
+custom_fonts/font = SubResource( 2 )
+text = "Sound effects by:
+artisticdude, kenney, p0ss, rubberduck"
+align = 1
+
+[node name="Label7" type="Label" parent="VBoxContainer"]
+margin_top = 279.0
+margin_right = 568.0
+margin_bottom = 303.0
+size_flags_vertical = 1
+custom_fonts/font = SubResource( 2 )
+text = "Game over jingle by oiboo"
+align = 1
+
+[node name="Label8" type="Label" parent="VBoxContainer"]
+margin_top = 308.0
+margin_right = 568.0
+margin_bottom = 332.0
+size_flags_vertical = 1
+custom_fonts/font = SubResource( 2 )
+text = "Game won jingle by Beau Buckley"
+align = 1
+
+[node name="Blank2" type="Label" parent="VBoxContainer"]
+margin_top = 337.0
+margin_right = 568.0
+margin_bottom = 361.0
+custom_fonts/font = SubResource( 2 )
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Music" type="Label" parent="VBoxContainer"]
+margin_top = 366.0
+margin_right = 568.0
+margin_bottom = 401.0
+custom_fonts/font = SubResource( 1 )
+text = "music"
+align = 1
+
+[node name="Label9" type="Label" parent="VBoxContainer"]
+margin_top = 406.0
+margin_right = 568.0
+margin_bottom = 538.0
+size_flags_vertical = 1
+custom_fonts/font = SubResource( 2 )
+text = "'Chase' by Ted Karr
+'Dance and Jump' by Snabish
+'Happy adventure' by TinyWorlds
+'New Age' by Rob Bery
+'Run Under Fire' by shiru8bit"
+align = 1
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -270.0
+mouse_filter = 2
+color = Color( 0.0745098, 0.0862745, 0.0705882, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Title" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -284.0
+margin_right = 284.0
+margin_bottom = 72.0
+text = "Credits"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -19,4 +19,3 @@ func _ready():
 func _on_Button_pressed():
 	$MarginContainer3/BackToMenuButton.disabled = true
 	SceneChanger.change_scene("res://Scenes/TitleScreen.tscn")
-	GameSounds.play_effect(GameSounds.INTERFACE1)

@@ -125,7 +125,7 @@ tracks/8/loop_wrap = true
 tracks/8/imported = false
 tracks/8/enabled = true
 tracks/8/keys = {
-"times": PoolRealArray( 0, 1.4, 3.6, 5.3, 7 ),
+"times": PoolRealArray( 0, 1.3, 3.5, 5.2, 7 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ "jump over low obstacles", "Slide below high obstacles", "Kill monsters 
@@ -480,7 +480,8 @@ text = "Mighty warrior Forresta Wood woke up in a strange and unknown place. The
 Left MB or up arrow: jump
  (release quickly for a half-jump)
 Z or down arrow - slide
-X or right arrow - Attack"
+X or right arrow - Attack
+esc - back to title screen"
 
 [node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
 margin_left = 299.0

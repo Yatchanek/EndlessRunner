@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 150, 12.5 )
+
+[node name="ThemeChanger" type="Area2D"]
+collision_layer = 16
+collision_mask = 9
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 152, -13 )
+shape = SubResource( 2 )

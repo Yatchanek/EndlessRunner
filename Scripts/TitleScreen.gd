@@ -2,6 +2,7 @@ extends Control
 
 onready var button_container = $CanvasLayer2/Control/CenterContainer/ButtonContainer
 onready var ok_button = $CanvasLayer2/Control/InfoPanel/OKButton
+onready var credits_button = $CanvasLayer2/Control/CreditsButton
 
 var running_left = false
 var acc_factor = 1.0
@@ -19,9 +20,12 @@ func _ready():
 	for button in button_container.get_children():
 		button.connect("pressed", self, "_on_Button_pressed", [button])
 	ok_button.connect("pressed", self, "_on_Button_pressed", [ok_button])
+	credits_button.connect("pressed", self, "_on_Button_pressed", [credits_button])
 	$AnimationPlayer.play("Idle")
 	$AnimTimer.wait_time = randi() % 5 + 5
 	$AnimTimer.start()
+	if GameSounds.current_state != GameSounds.States.TITLE_SCREEN:
+		GameSounds.enter_state(GameSounds.States.TITLE_SCREEN)
 	if !Globals.save_loaded:
 		load_game_data()
 
@@ -41,14 +45,15 @@ func load_game_data():
 	if !f.file_exists("user://highscore.sav"):
 		create_game_data()
 	else:
-		f.open("user://highscore.sav", File.READ)
+		f.open_encrypted_with_pass("user://highscore.sav", File.READ, OS.get_unique_id())
 		var data = f.get_var()
 		f.close()
-		if typeof(data) == TYPE_DICTIONARY and data.has_all(["high_score_0", "high_score_1", "high_score_2", "high_score_3", "endless_unlock", "reverse_unlock", "version"]):
+		if typeof(data) == TYPE_DICTIONARY and data.has_all(["high_score_0", "high_score_1", "high_score_2", "high_score_3", "endless_unlock", "reverse_unlock", "game_mode", "version"]):
 			Globals.game_data = data
+			
 		else:
 			create_game_data()
-
+	Globals.game_mode = Globals.game_data["game_mode"]
 	Globals.save_loaded = true
 
 func create_game_data():
@@ -59,13 +64,18 @@ func create_game_data():
 	"high_score_3": 0,
 	"endless_unlock": false,
 	"reverse_unlock": false,
+	"game_mode": Globals.GameModes.NORMAL,
 	"version": "0.9.0"
 	}
+	$CanvasLayer2/Control/InfoPanel.show()
+	save_game_data()
+	
+func save_game_data():
 	var f = File.new()
-	f.open("user://highscore.sav", File.WRITE)
+	f.open_encrypted_with_pass("user://highscore.sav", File.WRITE, OS.get_unique_id())
 	f.store_var(Globals.game_data)
 	f.close()
-	$CanvasLayer2/Control/InfoPanel.show()
+
 
 
 func enter_state(state):
@@ -84,18 +94,22 @@ func enter_state(state):
 func _on_Button_pressed(button):
 	match button.name:
 		"StartButton":
+			save_game_data()
 			SceneChanger.change_scene("res://Scenes/Main.tscn")
+			GameSounds.stop_music()
 		"InstructionsButton":
 			SceneChanger.change_scene("res://Scenes/InstructionsScreen.tscn")
 		"OptionsButton":
 			SceneChanger.change_scene("res://Scenes/OptionsScreen.tscn")
+		"CreditsButton":
+			SceneChanger.change_scene("res://Scenes/Credits.tscn")
 		"OKButton":
 			$CanvasLayer2/Control/InfoPanel.hide()
 	
 	if button.name != "OKButton":		
 		for button in button_container.get_children():
 			button.disabled = true
-	GameSounds.play_effect(GameSounds.INTERFACE1)
+
 
 func _on_AnimTimer_timeout():
 	if current_state == States.IDLE:

@@ -1,7 +1,14 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Assets/Fonts/PermanentMarker-Regular.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scripts/GUI.gd" type="Script" id=2]
+[ext_resource path="res://Assets/TitleScreenTheme.tres" type="Theme" id=3]
+[ext_resource path="res://Assets/Misc/checkmark.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Misc/cross.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Misc/musicOff.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Misc/musicOn.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Misc/audioOff.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Misc/audioOn.png" type="Texture" id=9]
 
 [sub_resource type="DynamicFont" id=15]
 font_data = ExtResource( 1 )
@@ -57,6 +64,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("UnlockLabel:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [sub_resource type="Animation" id=8]
 length = 0.001
@@ -84,6 +103,32 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("UnlockLabel:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="StyleBoxFlat" id=18]
+bg_color = Color( 0.168627, 0.192157, 0.156863, 1 )
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_blend = true
+
+[sub_resource type="StyleBoxFlat" id=11]
+draw_center = false
+
+[sub_resource type="StyleBoxFlat" id=19]
+draw_center = false
 
 [node name="GUI" type="Control"]
 anchor_right = 1.0
@@ -155,11 +200,26 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -171.5
-margin_top = -59.0
-margin_right = 171.5
+margin_left = -171.0
+margin_top = -44.0
+margin_right = 172.0
 custom_fonts/font = SubResource( 13 )
 text = "Press mouse button to continue"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UnlockLabel" type="Label" parent="."]
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+margin_top = 73.0
+margin_bottom = 105.0
+custom_fonts/font = SubResource( 13 )
+text = "Endless and reverse mode unlocked!"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -194,16 +254,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="DebugLabel" type="Label" parent="."]
-visible = false
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -24.0
-margin_right = 40.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="SpeedLabel" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
@@ -216,3 +266,198 @@ text = "speed: "
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="InfoPanel" type="Panel" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -175.0
+margin_top = -110.0
+margin_right = 175.0
+margin_bottom = 110.0
+rect_min_size = Vector2( 300, 180 )
+mouse_filter = 2
+theme = ExtResource( 3 )
+custom_styles/panel = SubResource( 18 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="InfoPanel"]
+margin_left = 30.0
+margin_top = 15.0
+margin_right = 320.0
+margin_bottom = 205.0
+size_flags_vertical = 3
+custom_constants/separation = 13
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="InfoPanel/VBoxContainer2"]
+margin_right = 290.0
+margin_bottom = 25.0
+custom_constants/separation = 0
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="InfoPanel/VBoxContainer2/HBoxContainer"]
+margin_left = 60.0
+margin_right = 85.0
+margin_bottom = 25.0
+size_flags_vertical = 0
+texture = ExtResource( 8 )
+stretch_mode = 4
+
+[node name="SoundVolume" type="HSlider" parent="InfoPanel/VBoxContainer2/HBoxContainer"]
+margin_left = 85.0
+margin_right = 205.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 120, 25 )
+mouse_default_cursor_shape = 2
+min_value = -20.0
+max_value = 20.0
+step = 5.0
+tick_count = 9
+ticks_on_borders = true
+
+[node name="TextureRect2" type="TextureRect" parent="InfoPanel/VBoxContainer2/HBoxContainer"]
+margin_left = 205.0
+margin_right = 230.0
+margin_bottom = 25.0
+size_flags_vertical = 0
+texture = ExtResource( 9 )
+stretch_mode = 4
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="InfoPanel/VBoxContainer2"]
+margin_top = 38.0
+margin_right = 290.0
+margin_bottom = 63.0
+custom_constants/separation = 0
+alignment = 1
+
+[node name="TextureRect3" type="TextureRect" parent="InfoPanel/VBoxContainer2/HBoxContainer2"]
+margin_left = 60.0
+margin_right = 85.0
+margin_bottom = 25.0
+texture = ExtResource( 6 )
+stretch_mode = 4
+
+[node name="MusicVolume" type="HSlider" parent="InfoPanel/VBoxContainer2/HBoxContainer2"]
+margin_left = 85.0
+margin_right = 205.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 120, 0 )
+mouse_default_cursor_shape = 2
+size_flags_vertical = 1
+min_value = -20.0
+max_value = 20.0
+step = 5.0
+tick_count = 9
+ticks_on_borders = true
+
+[node name="TextureRect4" type="TextureRect" parent="InfoPanel/VBoxContainer2/HBoxContainer2"]
+margin_left = 205.0
+margin_right = 230.0
+margin_bottom = 25.0
+texture = ExtResource( 7 )
+stretch_mode = 4
+
+[node name="ParticleEffectsButton" type="CheckBox" parent="InfoPanel/VBoxContainer2" groups=["Buttons"]]
+margin_left = 71.0
+margin_top = 76.0
+margin_right = 219.0
+margin_bottom = 101.0
+rect_min_size = Vector2( 142, 0 )
+hint_tooltip = "The rain effect.
+Turn it off if you don't like it
+or if it hinders framerate."
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 4
+custom_colors/font_color_disabled = Color( 0.364706, 0.364706, 0.364706, 1 )
+custom_colors/font_color_focus = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover_pressed = Color( 1, 1, 1, 1 )
+custom_colors/font_color = Color( 0.788235, 0.788235, 0.788235, 1 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
+custom_icons/checked_disabled = ExtResource( 4 )
+custom_icons/checked = ExtResource( 4 )
+custom_icons/unchecked_disabled = ExtResource( 5 )
+custom_icons/unchecked = ExtResource( 5 )
+custom_styles/hover = SubResource( 11 )
+custom_styles/pressed = SubResource( 19 )
+custom_styles/focus = SubResource( 19 )
+custom_styles/disabled = SubResource( 19 )
+custom_styles/hover_pressed = SubResource( 19 )
+custom_styles/normal = SubResource( 19 )
+text = "Particle Effets"
+
+[node name="DashEffectButton" type="CheckBox" parent="InfoPanel/VBoxContainer2" groups=["Buttons"]]
+margin_left = 74.0
+margin_top = 114.0
+margin_right = 216.0
+margin_bottom = 139.0
+rect_min_size = Vector2( 142, 0 )
+hint_tooltip = "The rain effect.
+Turn it off if you don't like it
+or if it hinders framerate."
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+custom_colors/font_color_disabled = Color( 0.364706, 0.364706, 0.364706, 1 )
+custom_colors/font_color_focus = Color( 1, 1, 1, 1 )
+custom_colors/font_color_hover_pressed = Color( 1, 1, 1, 1 )
+custom_colors/font_color = Color( 0.788235, 0.788235, 0.788235, 1 )
+custom_colors/font_color_hover = Color( 1, 1, 1, 1 )
+custom_colors/font_color_pressed = Color( 1, 1, 1, 1 )
+custom_icons/checked_disabled = ExtResource( 4 )
+custom_icons/checked = ExtResource( 4 )
+custom_icons/unchecked_disabled = ExtResource( 5 )
+custom_icons/unchecked = ExtResource( 5 )
+custom_styles/hover = SubResource( 11 )
+custom_styles/pressed = SubResource( 19 )
+custom_styles/focus = SubResource( 19 )
+custom_styles/disabled = SubResource( 19 )
+custom_styles/hover_pressed = SubResource( 19 )
+custom_styles/normal = SubResource( 19 )
+text = "Trail Effect"
+
+[node name="OKButton" type="Button" parent="InfoPanel" groups=["Buttons"]]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -14.0
+margin_top = -45.0
+margin_right = 14.0
+margin_bottom = -17.0
+mouse_default_cursor_shape = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "OK"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DebugLabel" type="Label" parent="."]
+visible = false
+anchor_right = 1.0
+margin_top = 35.0
+margin_bottom = 59.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DebugLabel2" type="Label" parent="."]
+visible = false
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -24.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[connection signal="value_changed" from="InfoPanel/VBoxContainer2/HBoxContainer/SoundVolume" to="." method="_on_SoundVolume_value_changed"]
+[connection signal="value_changed" from="InfoPanel/VBoxContainer2/HBoxContainer2/MusicVolume" to="." method="_on_MusicVolume_value_changed"]

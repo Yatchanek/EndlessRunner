@@ -64,7 +64,7 @@ layer = -101
 
 [node name="Sprite" type="Sprite" parent="World/MoonLayer"]
 position = Vector2( 0, 36 )
-scale = Vector2( 0.57, 0.57 )
+scale = Vector2( 0.56, 0.56 )
 texture = ExtResource( 8 )
 centered = false
 flip_h = true

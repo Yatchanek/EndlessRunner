@@ -13,13 +13,19 @@ preload("res://Assets/Sounds/swing.ogg"), preload("res://Assets/Sounds/game_over
 preload("res://Assets/Sounds/game_won.ogg"), preload("res://Assets/Sounds/interface1.ogg"), 
 preload("res://Assets/Sounds/coin.ogg"), preload("res://Assets/Sounds/warp.ogg")]
 
-var tracks = []
+var ingame_tracks = [preload("res://Assets/Sounds/Dance and Jump.ogg"), preload("res://Assets/Sounds/New age.ogg"), preload("res://Assets/Sounds/run_under_fire.ogg"), preload("res://Assets/Sounds/Chase.ogg")]
+var title_screen_tracks = [preload("res://Assets/Sounds/happy_adventure.ogg")]
 
+var tracks = []
 var next_track
+var switching = false
 var current_track_length = 0
 var current_track = 0
 var current_state
-var mute = false
+var mute_effects = false
+var mute_music = false
+var effects_vol_modifier = 0
+var music_vol_modifier = 0
 
 enum {
 	MONSTER_DIE,
@@ -43,34 +49,43 @@ enum {
 
 enum {
 	INGAME1,
-	INGAME2
+	INGAME2,
+	INGAME3
 }
 
 enum States {
 	TITLE_SCREEN,
 	INGAME,
-	GAME_OVER,
-	GAME_WON
 }
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	randomize()
 
-#func _process(delta):
-#	if current_track_length > 0 and abs(current_track_length - music_manager.get_playback_position()) < 2.5:
-#		match current_state:
-#			States.INGAME:
-#				current_track += 1
-#				switch_track((INGAME1 + current_track) % 2)
+func _process(delta):
+	if current_state == States.INGAME and !switching:
+		if current_track_length > 0 and abs(current_track_length - music_manager.get_playback_position()) < 2.5:
+			current_track += 1
+			switch_track(current_track % tracks.size())
+			switching = true
 	
-func change_volume(value):
+func change_effects_volume(value):
+	effects_vol_modifier = value
 	for channel in effects_manager.get_children():
 		channel.volume_db = -20 + value
 		if channel.volume_db < -35:
-			mute = true
+			mute_effects = true
 		else:
-			mute = false
+			mute_effects = false
+
+func change_music_volume(value):
+	music_vol_modifier = value
+	music_manager.volume_db = -20 + value
+	if music_manager.volume_db < -35:
+		mute_music = true
+		music_manager.volume_db = -80
+	else:
+		mute_music = false
 
 func stop_effects(effect):
 	for channel in effects_manager.get_children():
@@ -82,7 +97,7 @@ func stop_all_effects():
 		channel.stop()
 
 func play_effect(sound):
-	if !mute:
+	if !mute_effects:
 		for channel in effects_manager.get_children():
 			if not channel.playing:
 				channel.stream = sounds[sound]
@@ -91,34 +106,38 @@ func play_effect(sound):
 
 func switch_track(track):
 	next_track = track
-	$AnimationPlayer.play("FadeOut")
+	fade_out()
 
 func play_track(track):
-	music_manager.volume_db = -15
-	music_manager.stream = tracks[track]
-	current_track_length = music_manager.stream.get_length()
-	music_manager.play()
+	if !mute_music:
+		music_manager.volume_db = -15
+		music_manager.stream = tracks[track]
+		current_track_length = music_manager.stream.get_length()
+		music_manager.play()
+		switching = false
 
 func stop_music():
-	switch_track(null)
+	music_manager.stop()
+	
+func fade_out():
+	$Tween.interpolate_property($Music/Music, "volume_db", $Music/Music.volume_db, -80, 2.5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	$Tween.start()
 
 func enter_state(state):
 	match state:
 		States.TITLE_SCREEN:
-			pass
+			tracks = title_screen_tracks
+			next_track = 0
+			if !$Tween.is_active():
+				play_track(0)
 		States.INGAME:
-			pass
-		States.GAME_OVER:
-			pass
-		States.GAME_OVER:
-			pass
+			current_track = 0
+			tracks = ingame_tracks
+			play_track(randi() % tracks.size())
+
 	current_state = state
 
-func _on_AnimationPlayer_animation_finished(_anim_name):
-	music_manager.stop()
-	if next_track:
+
+func _on_Tween_tween_all_completed():
+	if next_track != null:
 		play_track(next_track)
-
-
-func _on_Music_finished():
-	pass # Replace with function body.
