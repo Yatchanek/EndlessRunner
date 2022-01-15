@@ -116,18 +116,18 @@ custom_constants/separation = 100
 alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
-margin_left = 55.0
-margin_right = 203.0
+margin_left = 58.0
+margin_right = 200.0
 margin_bottom = 184.0
 size_flags_vertical = 5
 custom_constants/separation = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
-margin_right = 148.0
+margin_right = 142.0
 margin_bottom = 45.0
 
 [node name="EndlessModeButton" type="CheckBox" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer" groups=["Buttons"]]
-margin_right = 148.0
+margin_right = 142.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 142, 0 )
 hint_tooltip = "Run forever as
@@ -155,7 +155,7 @@ align = 1
 
 [node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
 margin_top = 29.0
-margin_right = 148.0
+margin_right = 142.0
 margin_bottom = 45.0
 custom_fonts/font = SubResource( 1 )
 text = "Beat the game to unlock!"
@@ -166,11 +166,11 @@ __meta__ = {
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 margin_top = 65.0
-margin_right = 148.0
+margin_right = 142.0
 margin_bottom = 110.0
 
 [node name="ReverseModeButton" type="CheckBox" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer2" groups=["Buttons"]]
-margin_right = 148.0
+margin_right = 142.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 142, 0 )
 hint_tooltip = "Try running to the left! 
@@ -197,7 +197,7 @@ align = 1
 
 [node name="Label2" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer2"]
 margin_top = 29.0
-margin_right = 148.0
+margin_right = 142.0
 margin_bottom = 45.0
 custom_fonts/font = SubResource( 2 )
 text = "beat the game to unlock!"
@@ -208,11 +208,11 @@ __meta__ = {
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 margin_top = 130.0
-margin_right = 148.0
+margin_right = 142.0
 margin_bottom = 184.0
 
 [node name="ParticleEffectsButton" type="CheckBox" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer3" groups=["Buttons"]]
-margin_right = 148.0
+margin_right = 142.0
 margin_bottom = 25.0
 rect_min_size = Vector2( 142, 0 )
 hint_tooltip = "The rain effect.
@@ -235,12 +235,11 @@ custom_styles/focus = SubResource( 19 )
 custom_styles/disabled = SubResource( 19 )
 custom_styles/hover_pressed = SubResource( 19 )
 custom_styles/normal = SubResource( 19 )
-text = "Particle Effets"
-align = 1
+text = "Rain Effect"
 
 [node name="DashEffectButton" type="CheckBox" parent="MarginContainer/HBoxContainer/VBoxContainer/VBoxContainer3" groups=["Buttons"]]
 margin_top = 29.0
-margin_right = 148.0
+margin_right = 142.0
 margin_bottom = 54.0
 rect_min_size = Vector2( 142, 0 )
 hint_tooltip = "Trail effect when running very fast."
@@ -266,8 +265,8 @@ custom_styles/normal = SubResource( 19 )
 text = "Trail Effect"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
-margin_left = 303.0
-margin_right = 473.0
+margin_left = 300.0
+margin_right = 470.0
 margin_bottom = 184.0
 size_flags_vertical = 3
 custom_constants/separation = 30

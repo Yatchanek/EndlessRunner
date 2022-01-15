@@ -200,11 +200,11 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -171.0
+margin_left = -247.5
 margin_top = -44.0
-margin_right = 172.0
+margin_right = 247.5
 custom_fonts/font = SubResource( 13 )
-text = "Press mouse button to continue"
+text = "Press mouse button or tap screen to continue"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
@@ -365,9 +365,9 @@ texture = ExtResource( 7 )
 stretch_mode = 4
 
 [node name="ParticleEffectsButton" type="CheckBox" parent="InfoPanel/VBoxContainer2" groups=["Buttons"]]
-margin_left = 71.0
+margin_left = 74.0
 margin_top = 76.0
-margin_right = 219.0
+margin_right = 216.0
 margin_bottom = 101.0
 rect_min_size = Vector2( 142, 0 )
 hint_tooltip = "The rain effect.
@@ -391,7 +391,7 @@ custom_styles/focus = SubResource( 19 )
 custom_styles/disabled = SubResource( 19 )
 custom_styles/hover_pressed = SubResource( 19 )
 custom_styles/normal = SubResource( 19 )
-text = "Particle Effets"
+text = "Rain Effect"
 
 [node name="DashEffectButton" type="CheckBox" parent="InfoPanel/VBoxContainer2" groups=["Buttons"]]
 margin_left = 74.0

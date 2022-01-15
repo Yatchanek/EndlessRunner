@@ -4,7 +4,7 @@ const BLOCK_SIZE = 32
 
 var current_theme = 0
 var game_mode = GameModes.NORMAL
-var version = "0.9.0"
+var version = "0.9.1"
 
 enum GameModes {
 	NORMAL,
@@ -18,10 +18,10 @@ var game_data = {
 	"high_score_1": 0,
 	"high_score_2": 0,
 	"high_score_3": 0,
-	"endless_unlock": true,
-	"reverse_unlock": true,
-	"game_mode": 0b11,
-	"version": "0.9.0"
+	"endless_unlock": false,
+	"reverse_unlock": false,
+	"game_mode": GameModes.NORMAL,
+	"version": version
 }
 
 var save_loaded = false

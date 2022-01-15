@@ -18,9 +18,8 @@ var MAX_GAP_X = 150.0
 var MIN_GAP_X = 60.0
 var MAX_GAP_Y = 65.0
 var MIN_GAP_Y = 35.0
-export var initial_speed = 250.0
-export var max_speed = 600
-export var level_threshold = 2500
+var initial_speed = 250.0
+var max_speed = 600
 var speed = 0
 
 var acc_factor = 1.0
@@ -35,7 +34,7 @@ var exit_visible = false
 var game_won = false
 var raining = false
 var first_unlock = true
-var next_level = level_threshold
+var next_level = 2500
 var current_stage = 0
 var run_direction = 1
 
@@ -59,20 +58,18 @@ enum {
 
 func _ready():
 	config()
-	for _i in range(2):
+	for _i in range(3):
 		spawn_next_platform()
 		
 	enter_game_state(States.IDLE)
 	acc_factor = 1.0
 	$GUI.update_label(highscore_label, "Best distance: %s" % int(best_distance))
 	GameSounds.current_state = GameSounds.States.INGAME
-	
 
 func config():
 	speed = initial_speed
 	MAX_GAP_X = ceil(initial_speed * (sqrt(2 * player.jump_height / player.gravity) + sqrt(2 * (player.jump_height - 1.25 * MAX_GAP_Y) / player.gravity)))
 	MIN_GAP_X = ceil(MAX_GAP_X / 2.25)
-	print(MAX_GAP_X, " ", MIN_GAP_X)
 			
 	if Globals.game_mode & 0b1:
 		run_direction = -1
@@ -127,6 +124,7 @@ func _process(delta):
 	if game_state == States.PLAYING and !exit_visible:
 		background.update(speed, delta, run_direction)
 	if Input.is_action_just_pressed("ui_cancel"):
+		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		player.prepare_to_quit = true
 		Globals.current_theme = 0
 		GameSounds.stop_music()
@@ -137,10 +135,10 @@ func _process(delta):
 		if game_state != States.PAUSE:
 			previous_state = game_state
 			enter_game_state(States.PAUSE)
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 			player.enter_state(player.States.PAUSE)
 			$GUI/InfoPanel.show()
 			
-	
 	$GUI.update_label(distance_label, "Distance: %s" % int(distance))
 	$GUI.update_label(speed_label, "Speed: %s" % int(speed))
 
@@ -172,7 +170,6 @@ func _physics_process(delta):
 		
 		MAX_GAP_X = min(Globals.BLOCK_SIZE * 10, ceil(initial_speed * (sqrt(2 * player.jump_height / player.gravity) + sqrt(2 * (player.jump_height - 1.25 * MAX_GAP_Y) / player.gravity))))
 		MIN_GAP_X = min(floor(MAX_GAP_X / 2.25), Globals.BLOCK_SIZE * 4)
-		#$GUI/DebugLabel2.text = "M_GAPX: %s  MIN_GAPX: %s" % [MAX_GAP_X, MIN_GAP_X]
 		
 		if Globals.particle_effects and !raining and OS.get_unix_time() - last_rain_time > 20:
 			if randf() < 0.125:
@@ -186,6 +183,7 @@ func _physics_process(delta):
 			enter_game_state(States.PLAYING)
 			player.enter_state(player.States.RUN)
 			GameSounds.enter_state(GameSounds.States.INGAME)
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	
 	elif game_state == States.GAME_OVER or game_state == States.GAME_WON:
 		if Input.is_action_just_pressed("Jump"):
@@ -240,7 +238,7 @@ func spawn_next_platform():
 		if y < 40 + Globals.BLOCK_SIZE * 3:
 			y = 40 + Globals.BLOCK_SIZE * 3 + (randf() * (MAX_GAP_Y - MIN_GAP_Y) + MIN_GAP_Y)
 	
-	if change_theme or spawn_exit or distance == 0:
+	if change_theme or spawn_exit or (distance == 0 and platforms.get_child_count() < 2):
 		with_obstacle = false
 		
 	if change_theme:

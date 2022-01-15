@@ -36,6 +36,7 @@ func _on_Button_pressed(button):
 			Globals.dash_effect = !Globals.dash_effect
 		"OKButton":
 			$InfoPanel.hide()
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 			emit_signal("panel_closed")
 
 

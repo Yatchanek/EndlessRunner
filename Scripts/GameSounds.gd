@@ -17,15 +17,16 @@ var ingame_tracks = [preload("res://Assets/Sounds/Dance and Jump.ogg"), preload(
 var title_screen_tracks = [preload("res://Assets/Sounds/happy_adventure.ogg")]
 
 var tracks = []
-var next_track
+
 var switching = false
-var current_track_length = 0
-var current_track = 0
-var current_state
 var mute_effects = false
 var mute_music = false
+var music_stopped = false
 var effects_vol_modifier = 0
 var music_vol_modifier = 0
+var current_track = 0
+var next_track
+var current_state
 
 enum {
 	MONSTER_DIE,
@@ -62,12 +63,6 @@ enum States {
 func _ready():
 	randomize()
 
-func _process(delta):
-	if current_state == States.INGAME and !switching:
-		if current_track_length > 0 and abs(current_track_length - music_manager.get_playback_position()) < 2.5:
-			current_track += 1
-			switch_track(current_track % tracks.size())
-			switching = true
 	
 func change_effects_volume(value):
 	effects_vol_modifier = value
@@ -104,40 +99,65 @@ func play_effect(sound):
 				channel.play()
 				break
 
-func switch_track(track):
+func switch_track(track, is_first):
 	next_track = track
-	fade_out()
+	if !is_first:
+		fade_out()
+	else:
+		play_track(next_track)
+		fade_in()
+
 
 func play_track(track):
 	if !mute_music:
-		music_manager.volume_db = -15
+		#music_manager.volume_db = -15
 		music_manager.stream = tracks[track]
-		current_track_length = music_manager.stream.get_length()
+		$MusicTimer.wait_time = music_manager.stream.get_length() - 2.5
 		music_manager.play()
+		$MusicTimer.start()
 		switching = false
 
 func stop_music():
-	music_manager.stop()
+	music_stopped = true
+	$MusicTimer.stop()
+	fade_out()
 	
 func fade_out():
 	$Tween.interpolate_property($Music/Music, "volume_db", $Music/Music.volume_db, -80, 2.5, Tween.TRANS_LINEAR, Tween.EASE_OUT)
+	$Tween.start()
+	
+func fade_in():
+	music_stopped = false
+	$Tween.interpolate_property($Music/Music, "volume_db", -80, -15 + music_vol_modifier, 1.0, Tween.TRANS_LINEAR, Tween.EASE_OUT)
 	$Tween.start()
 
 func enter_state(state):
 	match state:
 		States.TITLE_SCREEN:
+			music_stopped = false
 			tracks = title_screen_tracks
 			next_track = 0
 			if !$Tween.is_active():
-				play_track(0)
+				play_track(next_track)
 		States.INGAME:
-			current_track = 0
 			tracks = ingame_tracks
-			play_track(randi() % tracks.size())
+			current_track = randi() % tracks.size()
+			switch_track(current_track, true)
 
 	current_state = state
 
 
 func _on_Tween_tween_all_completed():
-	if next_track != null:
-		play_track(next_track)
+	if $Music/Music.volume_db < -70:
+		music_manager.stop()
+		if !music_stopped and next_track != null:
+			play_track(next_track)
+			fade_in()
+		
+
+func _on_MusicTimer_timeout():
+	if current_state == States.INGAME:
+		current_track += 1
+		switch_track(current_track % tracks.size(), false)
+		switching = true
+

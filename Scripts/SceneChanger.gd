@@ -10,12 +10,12 @@ func change_scene(scene_path):
 	if !active:
 		active = true
 		$AnimationPlayer.play("FadeIn")
-		yield(get_tree().create_timer(1.5), "timeout")
+		yield(get_tree().create_timer(0.75), "timeout")
 		GameSounds.stop_all_effects()
 		get_tree().change_scene(scene_path)
 		active = false
 		$AnimationPlayer.play("FadeOut")
-		yield(get_tree().create_timer(1.5), "timeout")
+		yield(get_tree().create_timer(0.75), "timeout")
 		
 
 

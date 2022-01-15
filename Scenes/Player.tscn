@@ -251,7 +251,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id=6]
 resource_name = "Slide"
-length = 0.6
+length = 0.7
 step = 0.025
 tracks/0/type = "value"
 tracks/0/path = NodePath("Sprite:frame")
@@ -260,7 +260,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.125, 0.25, 0.375, 0.5 ),
+"times": PoolRealArray( 0, 0.15, 0.3, 0.45, 0.6 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 86, 87, 88, 89, 90 ]
@@ -335,7 +335,7 @@ texture = ExtResource( 21 )
 offset = Vector2( 0, -21 )
 hframes = 6
 vframes = 17
-frame = 76
+frame = 90
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Attack = SubResource( 10 )

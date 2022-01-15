@@ -25,10 +25,12 @@ signal exit_spawned
 
 func _ready():
 	randomize()
-	obstacle_chance = 85 * game_manager.acc_factor
-	MIN_OBSTACLE_GAP = ceil((game_manager.speed *  2 * player.jump_power / player.gravity) / Globals.BLOCK_SIZE)
-	MAX_LENGTH = min(ceil(MIN_OBSTACLE_GAP * 5), 100)
-	MIN_LENGTH = min(ceil(MAX_LENGTH / 2), 12)
+	obstacle_chance = 60 * game_manager.acc_factor
+	MIN_OBSTACLE_GAP = floor((game_manager.speed * 2 * player.jump_power / player.gravity) / Globals.BLOCK_SIZE)
+	MAX_LENGTH = min(ceil(MIN_OBSTACLE_GAP * 8), 200)
+	MIN_LENGTH = min(ceil(MAX_LENGTH / 2), 15)
+
+
 	#game_manager.get_node("GUI/DebugLabel").text = "MOG: %s  MAX_LN: %s  MIN_LN: %s" % [MIN_OBSTACLE_GAP, MAX_LENGTH, MIN_LENGTH]
 
 func spawn_platform(x, y, with_obstacle, with_roadsign, change_theme, spawn_exit):
@@ -71,6 +73,8 @@ func spawn_platform(x, y, with_obstacle, with_roadsign, change_theme, spawn_exit
 		var theme_changer = load("res://Scenes/ThemeChanger.tscn").instance()
 		call_deferred("add_child", theme_changer)
 		theme_changer.connect("body_entered", self, "_on_ThemeChanger_body_entered")
+		theme_changer.get_node("CollisionShape2D").position.x = 0.25 * length * Globals.BLOCK_SIZE
+		theme_changer.get_node("CollisionShape2D").shape.extents.x = 0.25 * length * Globals.BLOCK_SIZE
 		connect("theme_changed", game_manager, "_on_ThemeChangeArea_entered")
 	
 	if with_roadsign:
@@ -111,18 +115,27 @@ func generate_powerup():
 
 func generate_obstacles():
 	var obstacle_count = 0
+	
 	var start = MIN_OBSTACLE_GAP + randi() % 5 - floor(game_manager.MIN_GAP_X / Globals.BLOCK_SIZE)
 	if start > length - MIN_OBSTACLE_GAP + floor(game_manager.MIN_GAP_X / Globals.BLOCK_SIZE):
 		start = MIN_OBSTACLE_GAP
-	if start > length - MIN_OBSTACLE_GAP + floor(game_manager.MIN_GAP_X / Globals.BLOCK_SIZE):
-		return
-	while randi() % 100 < obstacle_chance - 0.2 * obstacle_count:
-		add_obstacle(start)
-		obstacle_count += 1
-		start = start + MIN_OBSTACLE_GAP + randi() % 7
 		if start > length - MIN_OBSTACLE_GAP + floor(game_manager.MIN_GAP_X / Globals.BLOCK_SIZE):
 			return
+			
+	while true:
+		var old_start
+		if randi() % 100 < obstacle_chance - 10 * obstacle_count:
+			add_obstacle(start)
+			obstacle_count += 1
+		
+		old_start = start
+		start += MIN_OBSTACLE_GAP + randi() % 5
+		if start > length - MIN_OBSTACLE_GAP + floor(game_manager.MIN_GAP_X / Globals.BLOCK_SIZE):
+			start = old_start + MIN_OBSTACLE_GAP
+			if start > length - MIN_OBSTACLE_GAP + floor(game_manager.MIN_GAP_X / Globals.BLOCK_SIZE):
+				return
 
+			
 func add_obstacle(start):
 		var o
 		if randf() < 0.85:
@@ -147,4 +160,5 @@ func place_roadsign():
 
 
 func _on_ThemeChanger_body_entered(_body):
+	$ThemeChanger.get_node("CollisionShape2D").set_deferred("disabled", true)
 	emit_signal("theme_changed")

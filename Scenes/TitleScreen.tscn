@@ -200,7 +200,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="CreditsButton" type="Button" parent="CanvasLayer2/Control"]
+[node name="CreditsButton" type="Button" parent="CanvasLayer2/Control" groups=["Buttons"]]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 5.0
@@ -241,20 +241,20 @@ margin_right = 161.0
 margin_bottom = 219.0
 custom_constants/separation = 18
 
-[node name="StartButton" type="Button" parent="CanvasLayer2/Control/CenterContainer/ButtonContainer"]
+[node name="StartButton" type="Button" parent="CanvasLayer2/Control/CenterContainer/ButtonContainer" groups=["Buttons"]]
 margin_right = 101.0
 margin_bottom = 28.0
 mouse_default_cursor_shape = 2
 text = "Start Game"
 
-[node name="InstructionsButton" type="Button" parent="CanvasLayer2/Control/CenterContainer/ButtonContainer"]
+[node name="InstructionsButton" type="Button" parent="CanvasLayer2/Control/CenterContainer/ButtonContainer" groups=["Buttons"]]
 margin_top = 46.0
 margin_right = 101.0
 margin_bottom = 74.0
 mouse_default_cursor_shape = 2
 text = "Instructions"
 
-[node name="OptionsButton" type="Button" parent="CanvasLayer2/Control/CenterContainer/ButtonContainer"]
+[node name="OptionsButton" type="Button" parent="CanvasLayer2/Control/CenterContainer/ButtonContainer" groups=["Buttons"]]
 margin_top = 92.0
 margin_right = 101.0
 margin_bottom = 120.0
@@ -278,7 +278,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OKButton" type="Button" parent="CanvasLayer2/Control/InfoPanel"]
+[node name="OKButton" type="Button" parent="CanvasLayer2/Control/InfoPanel" groups=["Buttons"]]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -351,7 +351,7 @@ hframes = 6
 vframes = 17
 frame = 14
 
-[node name="Label" type="Label" parent="CanvasLayer2/Control"]
+[node name="VersionLabel" type="Label" parent="CanvasLayer2/Control"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0

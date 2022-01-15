@@ -6,10 +6,6 @@ onready var dash_ghost = preload("res://Scenes/DashGhost.tscn")
 
 var textures = [preload("res://Assets/Sprites/Warrior_Sheet-Effect-black.png"), preload("res://Assets/Sprites/Warrior_Sheet-Effect.png"), preload("res://Assets/Sprites/Warrior_Sheet-Effect-pink.png"), preload("res://Assets/Sprites/Warrior_Sheet-Effect-green.png"), preload("res://Assets/Sprites/Warrior_Sheet-Effect-gold.png")]
 
-#var jump_sounds = [preload("res://Assets/Sounds/jump1.wav"), preload("res://Assets/Sounds/jump2.wav"), preload("res://Assets/Sounds/jump3.wav")]
-#var attack_sounds = [preload("res://Assets/Sounds/attack1.wav"), preload("res://Assets/Sounds/attack2.wav"), preload("res://Assets/Sounds/attack3.wav")]
-#var death_sounds = [preload("res://Assets/Sounds/damaged1.wav"), preload("res://Assets/Sounds/damaged2.wav"), preload("res://Assets/Sounds/damaged2.wav")]
-
 export var gravity = 1250.0
 export var jump_height = 95.0
 
@@ -48,7 +44,19 @@ func _ready():
 	$AttackBox/CollisionShape2D.disabled = true
 	jump_power = sqrt(2 * gravity * jump_height)
 
-	
+func _input(event):
+	if event is InputEventScreenTouch:
+		get_tree().set_input_as_handled()
+	elif event is InputEventMouseButton:
+		if event.pressed and event.button_index == BUTTON_LEFT:
+			if current_state == States.RUN or (current_state == States.SLIDE and can_jump) or (current_state == States.ATTACK and can_jump):
+				velocity.y = -jump_power
+				enter_state(States.JUMP)
+				get_tree().set_input_as_handled()
+		else:
+			if current_state == States.JUMP and !$HalfJumpTimer.is_stopped():
+				velocity.y = -jump_power * 0.5
+
 func _physics_process(delta):
 	if game_manager.game_state != game_manager.States.PAUSE:
 		velocity.y += gravity * delta

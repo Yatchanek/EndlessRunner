@@ -17,13 +17,12 @@ enum States {
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	randomize()
-	for button in button_container.get_children():
+	for button in get_tree().get_nodes_in_group("Buttons"):
 		button.connect("pressed", self, "_on_Button_pressed", [button])
-	ok_button.connect("pressed", self, "_on_Button_pressed", [ok_button])
-	credits_button.connect("pressed", self, "_on_Button_pressed", [credits_button])
 	$AnimationPlayer.play("Idle")
 	$AnimTimer.wait_time = randi() % 5 + 5
 	$AnimTimer.start()
+	$CanvasLayer2/Control/VersionLabel.text = "Version %s" % Globals.version
 	if GameSounds.current_state != GameSounds.States.TITLE_SCREEN:
 		GameSounds.enter_state(GameSounds.States.TITLE_SCREEN)
 	if !Globals.save_loaded:
@@ -49,24 +48,15 @@ func load_game_data():
 		var data = f.get_var()
 		f.close()
 		if typeof(data) == TYPE_DICTIONARY and data.has_all(["high_score_0", "high_score_1", "high_score_2", "high_score_3", "endless_unlock", "reverse_unlock", "game_mode", "version"]):
-			Globals.game_data = data
-			
-		else:
-			create_game_data()
+			if data["version"][0] != Globals.game_data["version"][0] or data["version"][2] != Globals.game_data["version"][2]:
+				create_game_data()		
+			else:
+				Globals.game_data = data
+				Globals.game_data["version"] = Globals.version
 	Globals.game_mode = Globals.game_data["game_mode"]
 	Globals.save_loaded = true
 
 func create_game_data():
-	Globals.game_data = {
-	"high_score_0": 0,
-	"high_score_1": 0,
-	"high_score_2": 0,
-	"high_score_3": 0,
-	"endless_unlock": false,
-	"reverse_unlock": false,
-	"game_mode": Globals.GameModes.NORMAL,
-	"version": "0.9.0"
-	}
 	$CanvasLayer2/Control/InfoPanel.show()
 	save_game_data()
 	

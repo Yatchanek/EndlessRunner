@@ -27,7 +27,8 @@ func generate_background():
 	
 func reset_layers():
 	for layer in get_children():
-		layer.get_node("Sprite").texture = null
+		if layer.has_node("Sprite"):
+			layer.get_node("Sprite").texture = null
 
 func update(speed, delta, run_direction):
 	scroll_offset.x -= run_direction * speed * delta

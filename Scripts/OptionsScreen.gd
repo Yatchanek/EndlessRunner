@@ -56,3 +56,5 @@ func _on_SoundVolume_value_changed(value):
 
 func _on_MusicVolume_value_changed(value):
 	GameSounds.change_music_volume(value)
+	if !prevent_play and !GameSounds.music_manager.playing:
+		GameSounds.music_manager.play()
