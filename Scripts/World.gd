@@ -66,6 +66,21 @@ func _ready():
 	$GUI.update_label(highscore_label, "Best distance: %s" % int(best_distance))
 	GameSounds.current_state = GameSounds.States.INGAME
 
+func _input(event):
+	if [States.IDLE, States.GAME_OVER, States.GAME_WON].has(game_state):
+		if event is InputEventScreenTouch or event is InputEventMouseButton:
+			if event.is_pressed():
+				if game_state == States.IDLE:
+					yield(get_tree().create_timer(0.1), "timeout")
+					enter_game_state(States.PLAYING)
+					player.enter_state(player.States.RUN)
+					GameSounds.enter_state(GameSounds.States.INGAME)
+				else:
+					yield(get_tree().create_timer(0.1), "timeout")
+					Globals.current_theme = 0
+					GameSounds.stop_all_effects()
+					get_tree().reload_current_scene()
+
 func config():
 	speed = initial_speed
 	MAX_GAP_X = ceil(initial_speed * (sqrt(2 * player.jump_height / player.gravity) + sqrt(2 * (player.jump_height - 1.25 * MAX_GAP_Y) / player.gravity)))
@@ -99,8 +114,8 @@ func enter_game_state(state):
 			speed_label.hide()
 			player.position.x = 50 if run_direction > 0 else 518
 			player.position.y = platforms.get_child(0).position.y
-			continue_label.text = "Press mouse button to start running"
-			continue_label.set_anchors_and_margins_preset(Control.PRESET_CENTER_BOTTOM)
+			continue_label.text = "Press mouse button\nor tap screen to start running"
+			#continue_label.set_anchors_and_margins_preset(Control.PRESET_CENTER_BOTTOM)
 			continue_label.show()
 		
 		States.PAUSE:
@@ -124,7 +139,7 @@ func _process(delta):
 	if game_state == States.PLAYING and !exit_visible:
 		background.update(speed, delta, run_direction)
 	if Input.is_action_just_pressed("ui_cancel"):
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		#Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		player.prepare_to_quit = true
 		Globals.current_theme = 0
 		GameSounds.stop_music()
@@ -135,7 +150,7 @@ func _process(delta):
 		if game_state != States.PAUSE:
 			previous_state = game_state
 			enter_game_state(States.PAUSE)
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			#Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 			player.enter_state(player.States.PAUSE)
 			$GUI/InfoPanel.show()
 			
@@ -176,25 +191,11 @@ func _physics_process(delta):
 				rain()
 			else:
 				last_rain_time = OS.get_unix_time()
-		
-	elif game_state == States.IDLE:
-		if Input.is_action_just_pressed("Jump"):
-			yield(get_tree().create_timer(0.1), "timeout")
-			enter_game_state(States.PLAYING)
-			player.enter_state(player.States.RUN)
-			GameSounds.enter_state(GameSounds.States.INGAME)
-			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	
-	elif game_state == States.GAME_OVER or game_state == States.GAME_WON:
-		if Input.is_action_just_pressed("Jump"):
-			yield(get_tree().create_timer(0.1), "timeout")
-			Globals.current_theme = 0
-			GameSounds.stop_all_effects()
-			get_tree().reload_current_scene()
+
 	
 func show_ending_message():
-			continue_label.text = "Press mouse button to restart"
-			continue_label.set_anchors_and_margins_preset(Control.PRESET_CENTER_BOTTOM)
+			continue_label.text = "Press mouse button\nor tap screen to restart"
+			#continue_label.set_anchors_and_margins_preset(Control.PRESET_CENTER_BOTTOM)
 			continue_label.show()
 			gameover_label.show()
 			if game_won and first_unlock:

@@ -94,7 +94,7 @@ func stop_all_effects():
 func play_effect(sound):
 	if !mute_effects:
 		for channel in effects_manager.get_children():
-			if not channel.playing:
+			if !channel.playing:
 				channel.stream = sounds[sound]
 				channel.play()
 				break

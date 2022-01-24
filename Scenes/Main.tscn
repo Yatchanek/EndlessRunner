@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Assets/Backgrounds/VillageBackground3.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Backgrounds/VillageBackground1.png" type="Texture" id=2]
@@ -9,6 +9,18 @@
 [ext_resource path="res://Scripts/Background.gd" type="Script" id=7]
 [ext_resource path="res://Assets/Backgrounds/DarkForestSky.png" type="Texture" id=8]
 [ext_resource path="res://Assets/Misc/rain.png" type="Texture" id=9]
+[ext_resource path="res://Assets/Misc/flatDark24.png" type="Texture" id=10]
+[ext_resource path="res://Assets/Misc/flatDark26.png" type="Texture" id=11]
+[ext_resource path="res://Assets/Misc/flatDark25.png" type="Texture" id=12]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 40.0
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 40.0
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 40.0
 
 [node name="GameManager" type="Node"]
 script = ExtResource( 6 )
@@ -85,10 +97,39 @@ hue_variation = 0.02
 [node name="GUI" parent="." instance=ExtResource( 5 )]
 margin_left = 1.0
 margin_right = 1.0
-mouse_filter = 2
 
 [node name="RainTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="."]
+position = Vector2( 200, 312 )
+scale = Vector2( 0.5, 0.5 )
+z_index = 100
+normal = ExtResource( 12 )
+shape = SubResource( 1 )
+shape_visible = false
+action = "Jump"
+visibility_mode = 1
+
+[node name="TouchScreenButton2" type="TouchScreenButton" parent="."]
+position = Vector2( 264, 312 )
+scale = Vector2( 0.5, 0.5 )
+z_index = 100
+normal = ExtResource( 11 )
+shape = SubResource( 2 )
+shape_visible = false
+action = "Slide"
+visibility_mode = 1
+
+[node name="TouchScreenButton3" type="TouchScreenButton" parent="."]
+position = Vector2( 328, 312 )
+scale = Vector2( 0.5, 0.5 )
+z_index = 100
+normal = ExtResource( 10 )
+shape = SubResource( 3 )
+shape_visible = false
+action = "Attack"
+visibility_mode = 1
 
 [connection signal="theme_changed" from="World/ParallaxBackground" to="." method="_on_ParallaxBackground_theme_changed"]
 [connection signal="died" from="World/Player" to="." method="_on_Player_died"]

@@ -477,10 +477,10 @@ size_flags_horizontal = 3
 custom_fonts/normal_font = SubResource( 1 )
 text = "Mighty warrior Forresta Wood woke up in a strange and unknown place. The only option is to run straight ahead. Help her avoid obstacles in pursuit of the exit... or not?
 
-Left MB or up arrow: jump
+up arrow or w: jump
  (release quickly for a half-jump)
-Z or down arrow - slide
-X or right arrow - Attack
+S, Z or down arrow - slide
+D, X or right arrow - Attack
 esc - back to title screen"
 
 [node name="MarginContainer2" type="MarginContainer" parent="MarginContainer/HBoxContainer"]
